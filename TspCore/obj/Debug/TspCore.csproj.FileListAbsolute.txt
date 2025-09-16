@@ -1,0 +1,12 @@
+D:\case\mnt\data\TspWinFormsSolution\TspCore\obj\Debug\TspCore.csproj.AssemblyReference.cache
+D:\case\mnt\data\TspWinFormsSolution\TspCore\obj\Debug\TspCore.csproj.CoreCompileInputs.cache
+D:\case\mnt\data\TspWinFormsSolution\TspCore\bin\Debug\TspCore.dll
+D:\case\mnt\data\TspWinFormsSolution\TspCore\bin\Debug\TspCore.pdb
+D:\case\mnt\data\TspWinFormsSolution\TspCore\obj\Debug\TspCore.dll
+D:\case\mnt\data\TspWinFormsSolution\TspCore\obj\Debug\TspCore.pdb
+D:\case\TspWinForms\TspCore\bin\Debug\TspCore.dll
+D:\case\TspWinForms\TspCore\bin\Debug\TspCore.pdb
+D:\case\TspWinForms\TspCore\obj\Debug\TspCore.csproj.AssemblyReference.cache
+D:\case\TspWinForms\TspCore\obj\Debug\TspCore.csproj.CoreCompileInputs.cache
+D:\case\TspWinForms\TspCore\obj\Debug\TspCore.dll
+D:\case\TspWinForms\TspCore\obj\Debug\TspCore.pdb

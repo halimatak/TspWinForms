@@ -1,0 +1,14 @@
+D:\case\TspWinForms\TspWinForms\bin\Debug\TspWinForms.exe.config
+D:\case\TspWinForms\TspWinForms\bin\Debug\TspWinForms.exe
+D:\case\TspWinForms\TspWinForms\bin\Debug\TspWinForms.pdb
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.csproj.AssemblyReference.cache
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.Properties.Resources.resources
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.csproj.GenerateResource.cache
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.csproj.CoreCompileInputs.cache
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.exe
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.pdb
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.exe.config
+D:\case\TspWinForms\TspWinForms\bin\Debug\TspCore.dll
+D:\case\TspWinForms\TspWinForms\bin\Debug\TspCore.pdb
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinFo.C3AF5C37.Up2Date
+D:\case\TspWinForms\TspWinForms\obj\Debug\TspWinForms.TspWinForms.resources
