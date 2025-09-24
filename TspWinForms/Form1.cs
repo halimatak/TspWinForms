@@ -340,21 +340,24 @@ namespace TspWinForms
                     var pt = Map(p);
                     e.Graphics.FillEllipse(dotBrush, pt.X - 3, pt.Y - 3, 6, 6);
 
-                    string label = $"({p.X}, {p.Y})";
+                    if (chkShowLocation.Checked)
+                    {
+                        string label = $"({p.X}, {p.Y})";
 
-                    Size size = TextRenderer.MeasureText(label, font);
+                        Size size = TextRenderer.MeasureText(label, font);
 
-                    float tx = pt.X + 5;
-                    float ty = pt.Y - size.Height - 4;
+                        float tx = pt.X + 5;
+                        float ty = pt.Y - size.Height - 4;
 
-                    tx = Math.Max(2f, Math.Min(tx, w - size.Width - 2f));
-                    ty = Math.Max(2f, Math.Min(ty, h - size.Height - 2f));
+                        tx = Math.Max(2f, Math.Min(tx, w - size.Width - 2f));
+                        ty = Math.Max(2f, Math.Min(ty, h - size.Height - 2f));
 
-                    var rect = new Rectangle((int)tx - 2, (int)ty - 1, size.Width + 4, size.Height + 2);
-                    using (var bgBrush = new SolidBrush(Color.FromArgb(100, Color.White)))
-                        e.Graphics.FillRectangle(bgBrush, rect);
+                        var rect = new Rectangle((int)tx - 2, (int)ty - 1, size.Width + 4, size.Height + 2);
+                        using (var bgBrush = new SolidBrush(Color.FromArgb(100, Color.White)))
+                            e.Graphics.FillRectangle(bgBrush, rect);
 
-                    TextRenderer.DrawText(e.Graphics, label, font, new Point((int)tx, (int)ty), Color.Black);
+                        TextRenderer.DrawText(e.Graphics, label, font, new Point((int)tx, (int)ty), Color.Black);
+                    }
                 }
             }
         }
@@ -369,10 +372,13 @@ namespace TspWinForms
         /// </summary>
         private void TspWinForms_Load(object sender, EventArgs e)
         {
+            chkShowLocation.Checked = true;
             nudGenSeed.Value = 123;
             nudGenN.Value = 10;
             nudMut.Value = .05m;
             UpdateLabels();  // Etiketleri güncelle
         }
+
+        private void chkShowLocation_CheckedChanged(object sender, EventArgs e) => pictureBox1.Invalidate();
     }
 }

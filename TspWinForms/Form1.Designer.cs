@@ -68,6 +68,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.lblN = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
+            this.chkShowLocation = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudGenN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGenSeed)).BeginInit();
             this.gbExactSolver.SuspendLayout();
@@ -474,11 +475,23 @@
             this.label16.TabIndex = 1;
             this.label16.Text = "N";
             // 
+            // chkShowLocation
+            // 
+            this.chkShowLocation.AutoSize = true;
+            this.chkShowLocation.Location = new System.Drawing.Point(476, 26);
+            this.chkShowLocation.Name = "chkShowLocation";
+            this.chkShowLocation.Size = new System.Drawing.Size(102, 17);
+            this.chkShowLocation.TabIndex = 5;
+            this.chkShowLocation.Text = "Show Locations";
+            this.chkShowLocation.UseVisualStyleBackColor = true;
+            this.chkShowLocation.CheckedChanged += new System.EventHandler(this.chkShowLocation_CheckedChanged);
+            // 
             // TspWinForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1199, 653);
+            this.Controls.Add(this.chkShowLocation);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.gbResultInformation);
             this.Controls.Add(this.gbGaSolver);
@@ -554,6 +567,7 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.CheckBox chkShowLocation;
     }
 }
 
