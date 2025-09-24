@@ -14,38 +14,36 @@ namespace TspWinForms
 {
     public partial class TspWinForms : Form
     {
-        private TspInstance _instance;
-        private int[] _bestTour;
-        private double _bestLen;
-        private readonly object _lock = new object();
+        private TspInstance _instance;        // TSP örneği (şehirlere ve mesafeye dair bilgi)
+        private int[] _bestTour;              // En iyi tur yolu
+        private double _bestLen;              // En iyi tur uzunluğu
+        private readonly object _lock = new object(); // Çözümdeki verileri güvenli bir şekilde paylaşmak için kilit
 
-        private CancellationTokenSource _ctsExact;
-        private CancellationTokenSource _ctsGA;
+        private CancellationTokenSource _ctsExact;  // ExactSolver için iptal token
+        private CancellationTokenSource _ctsGA;     // GASolver için iptal token
 
-        private int _seed = 123;
         public TspWinForms()
         {
             InitializeComponent();
 
+            // UI bileşenlerinin maksimum ve minimum değerlerini ayarlama
             nudGenSeed.Maximum = 1000000;
             nudGASeed.Maximum = 1000000;
-
             nudGen.Minimum = 1;
             nudGen.Maximum = 20000;
-
             nudPop.Minimum = 10;
             nudPop.Maximum = 10000;
-
             nudMut.DecimalPlaces = 2;
             nudMut.Increment = 0.01M;
             nudMut.Minimum = 0;
             nudMut.Maximum = 1;
-
-
             nudGenN.Minimum = 10;
             nudGenN.Maximum = 200;
         }
 
+        /// <summary>
+        /// Arayüzdeki etiketleri günceller.
+        /// </summary>
         private void UpdateLabels()
         {
             if (_instance == null)
@@ -63,6 +61,9 @@ namespace TspWinForms
             }
         }
 
+        /// <summary>
+        /// Exact Solver için butonun etkinlik durumunu ayarlar.
+        /// </summary>
         private void UpdateExactEnabled()
         {
             if (_instance == null)
@@ -71,9 +72,12 @@ namespace TspWinForms
                 return;
             }
             int n = _instance.N;
-            btnExactRun.Enabled = n <= 11;
+            btnExactRun.Enabled = n <= 11;  // Exact Solver, 11'den fazla şehir için çalışmaz
         }
 
+        /// <summary>
+        /// Kullanıcıdan şehir verilerini yükler (CSV dosyasından).
+        /// </summary>
         private void btnLoadPoints_Click(object sender, EventArgs e)
         {
             using (var ofd = new OpenFileDialog())
@@ -83,27 +87,31 @@ namespace TspWinForms
                 {
                     try
                     {
+                        // CSV dosyasını okuyup şehirleri yükler
                         var pts = File.ReadAllLines(ofd.FileName)
                             .Where(l => !string.IsNullOrWhiteSpace(l))
                             .Select(l => l.Trim())
                             .Select(l => l.Split(','))
                             .Select(a => new Point2D(int.Parse(a[0]), double.Parse(a[1]), double.Parse(a[2])))
                             .ToArray();
-                        _instance = new TspInstance(pts);
+                        _instance = new TspInstance(pts);  // Yeni TspInstance oluştur
                         _bestTour = null;
                         _bestLen = double.NaN;
-                        UpdateLabels();
-                        pictureBox1.Invalidate();
-                        UpdateExactEnabled();
+                        UpdateLabels();  // Etiketleri güncelle
+                        pictureBox1.Invalidate();  // Grafik alanını yeniden çiz
+                        UpdateExactEnabled();  // Exact Solver'ı etkinleştir
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("CSV reading error: " + ex.Message);
+                        MessageBox.Show("CSV reading error: " + ex.Message);  // Hata mesajı göster
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Rastgele şehirler üretir.
+        /// </summary>
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             int n = (int)nudGenN.Value;
@@ -112,9 +120,9 @@ namespace TspWinForms
             var pts = new Point2D[n];
             for (int i = 0; i < n; i++)
             {
-                pts[i] = new Point2D(i, rng.Next(0, 1000), rng.Next(0, 1000));
+                pts[i] = new Point2D(i, rng.Next(0, 1000), rng.Next(0, 1000));  // Rastgele şehirler üret
             }
-            _instance = new TspInstance(pts);
+            _instance = new TspInstance(pts);  // Yeni TspInstance oluştur
             _bestTour = null;
             _bestLen = double.NaN;
             UpdateLabels();
@@ -122,6 +130,9 @@ namespace TspWinForms
             UpdateExactEnabled();
         }
 
+        /// <summary>
+        /// Exact Solver'ı çalıştırır ve sonucu gösterir.
+        /// </summary>
         private void btnExactRun_Click(object sender, EventArgs e)
         {
             if (_instance == null)
@@ -173,15 +184,20 @@ namespace TspWinForms
             });
         }
 
+        /// <summary>
+        /// Exact Solver'ı iptal eder.
+        /// </summary>
         private void btnExactCancel_Click(object sender, EventArgs e) => _ctsExact?.Cancel();
 
+        /// <summary>
+        /// İlerleme durumunu günceller.
+        /// </summary>
         private IProgress<T> GetProgress<T>()
         {
             return new Progress<T>(t =>
             {
                 if (t is Tuple<int, double> tup)
                     lblProgress.Text = $"Generation: {tup.Item1}, Best length: {tup.Item2:F2}";
-
                 else if (t is double d)
                 {
                     lock (_lock)
@@ -194,6 +210,9 @@ namespace TspWinForms
             });
         }
 
+        /// <summary>
+        /// Genetik algoritmayı çalıştırır ve sonucu gösterir.
+        /// </summary>
         private void btnRunGa_Click(object sender, EventArgs e)
         {
             if (_instance == null)
@@ -257,8 +276,14 @@ namespace TspWinForms
             });
         }
 
+        /// <summary>
+        /// Genetik algoritmanın çalışmasını iptal eder.
+        /// </summary>
         private void btnGaCancel_Click(object sender, EventArgs e) => _ctsGA?.Cancel();
 
+        /// <summary>
+        /// Grafik üzerine şehirlerin ve çözümün çizilmesi.
+        /// </summary>
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -276,6 +301,7 @@ namespace TspWinForms
                 return;
             }
 
+            // Grafik için şehirlerin harita üzerinden konumlandırılması
             double minX = pts.Min(p => p.X);
             double maxX = pts.Max(p => p.X);
             double minY = pts.Min(p => p.Y);
@@ -291,6 +317,7 @@ namespace TspWinForms
 
             PointF Map(Point2D p) => new PointF((float)(padding + (p.X - minX) * scale), (float)(padding + (p.Y - minY) * scale));
 
+            // En iyi tur varsa, onu çiz
             if (_bestTour != null)
             {
                 using (var pen = new Pen(Color.DarkBlue, 2))
@@ -301,9 +328,10 @@ namespace TspWinForms
                         int b = _bestTour[(i + 1) % _bestTour.Length];
                         e.Graphics.DrawLine(pen, Map(pts[a]), Map(pts[b]));
                     }
-                }                    
+                }
             }
 
+            // Şehirleri çiz
             var font = this.Font;
             using (var dotBrush = new SolidBrush(Color.Red))
             {
@@ -331,15 +359,20 @@ namespace TspWinForms
             }
         }
 
+        /// <summary>
+        /// Tohum değerini değiştirir.
+        /// </summary>
         private void nudGenSeed_ValueChanged(object sender, EventArgs e) => nudGASeed.Value = nudGenSeed.Value;
 
+        /// <summary>
+        /// Form yüklendiğinde başlatıcı ayarları yapar.
+        /// </summary>
         private void TspWinForms_Load(object sender, EventArgs e)
         {
-
             nudGenSeed.Value = 123;
             nudGenN.Value = 10;
             nudMut.Value = .05m;
-            UpdateLabels();
+            UpdateLabels();  // Etiketleri güncelle
         }
     }
 }
